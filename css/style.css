@@ -1,0 +1,21 @@
+/* common rules */
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .clearfix::after{
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  .fl{
+    float: left;
+  }
+  /* /common rules */
+  li{
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
