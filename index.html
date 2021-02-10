@@ -6,20 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
     <link rel="stylesheet" href="css/style.css">
     <title>Boolflix</title>
 </head>
 <body>
 
-    <div id="app">
+    <div id="app" class="container">
         <input type="text" v-model="searchInput" @keyup.enter="searchMovie">
         <button @click="searchMovie">CERCA</button>
         <ul>
             <li v-for="movie in movieList">
+                <img :src="'https://image.tmdb.org/t/p/w342' + movie.poster_path" alt="">
                 <p>Titolo: {{movie.title}}</p>
                 <p>Titolo originale: {{movie.original_title}}</p>
                 <p>Lingua: {{movie.original_language}}</p>
-                <p>Media voto: {{movie.vote_average}}</p>
+                <p>Media voto: <i v-for="(star, index) in averageVoteList" :class="coloredStars(movie, index)" class="fas fa-star"></i></p>
+            </li>
+        </ul>
+        <p>SERIE TV</p>
+        <ul>
+            <li v-for="series in tvList">
+                <img :src="'https://image.tmdb.org/t/p/w342' + series.poster_path" alt="">
+                <p>Titolo: {{series.name}}</p>
+                <p>Titolo originale: {{series.original_name}}</p>
+                <p>Lingua: {{series.original_language}}</p>
+                <p>Media voto: <i v-for="(star, index) in averageVoteList" :class="coloredStars(series, index)" class="fas fa-star"></i></p>
             </li>
         </ul>
     </div>
