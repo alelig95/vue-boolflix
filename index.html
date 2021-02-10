@@ -20,8 +20,9 @@
                 <img :src="'https://image.tmdb.org/t/p/w342' + movie.poster_path" alt="">
                 <p>Titolo: {{movie.title}}</p>
                 <p>Titolo originale: {{movie.original_title}}</p>
-                <p>Lingua: {{movie.original_language}}</p>
-                <p>Media voto: <i v-for="(star, index) in averageVoteList" :class="coloredStars(movie, index)" class="fas fa-star"></i></p>
+                <span>Lingua:</span> <img class="flag-language" v-if="flagList.includes(movie.original_language)" :src="'./img/' + movie.original_language + '.png'" alt="">
+                <span v-else>{{movie.original_language}}</span>
+                <p>Media voto: <i v-for="(star, index) in 5" :class="coloredStars(movie, index)" class="fas fa-star"></i></p>
             </li>
         </ul>
         <p>SERIE TV</p>
@@ -31,7 +32,7 @@
                 <p>Titolo: {{series.name}}</p>
                 <p>Titolo originale: {{series.original_name}}</p>
                 <p>Lingua: {{series.original_language}}</p>
-                <p>Media voto: <i v-for="(star, index) in averageVoteList" :class="coloredStars(series, index)" class="fas fa-star"></i></p>
+                <p>Media voto: <i v-for="(star, index) in 5" :class="coloredStars(series, index)" class="fas fa-star"></i></p>
             </li>
         </ul>
     </div>

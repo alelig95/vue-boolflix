@@ -3,7 +3,7 @@ new Vue ({
     data: {
         movieList: [],
         tvList: [],
-        averageVoteList: [1, 2, 3, 4, 5],
+        flagList:['en', 'it'],
         searchInput: ''
     },
     methods: {
