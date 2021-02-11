@@ -13,28 +13,54 @@
 <body>
 
     <div id="app" class="container">
-        <input type="text" v-model="searchInput" @keyup.enter="searchMovie">
-        <button @click="searchMovie">CERCA</button>
-        <ul>
-            <li v-for="movie in movieList">
-                <img :src="'https://image.tmdb.org/t/p/w342' + movie.poster_path" alt="">
-                <p>Titolo: {{movie.title}}</p>
-                <p>Titolo originale: {{movie.original_title}}</p>
-                <span>Lingua:</span> <img class="flag-language" v-if="flagList.includes(movie.original_language)" :src="'./img/' + movie.original_language + '.png'" alt="">
-                <span v-else>{{movie.original_language}}</span>
-                <p>Media voto: <i v-for="(star, index) in 5" :class="coloredStars(movie, index)" class="fas fa-star"></i></p>
-            </li>
-        </ul>
-        <p>SERIE TV</p>
-        <ul>
-            <li v-for="series in tvList">
-                <img :src="'https://image.tmdb.org/t/p/w342' + series.poster_path" alt="">
-                <p>Titolo: {{series.name}}</p>
-                <p>Titolo originale: {{series.original_name}}</p>
-                <p>Lingua: {{series.original_language}}</p>
-                <p>Media voto: <i v-for="(star, index) in 5" :class="coloredStars(series, index)" class="fas fa-star"></i></p>
-            </li>
-        </ul>
+        <header>
+            <div class="header-left">
+                <img  class="logo" src="img/Boolflix.png" alt="">
+            </div> 
+            <div class="header-right">
+                <input type="text" v-model="searchInput" @keyup.enter="search">
+                <button @click="search">CERCA</button>
+             </div>
+        </header>   
+        <div class="film-container"> 
+            <h2>FILM</h2>
+            <ul>
+                <li v-for="movie in movieList">
+                    <div class="poster-container">
+                        <div class="opacity"></div>
+                        <img  v-if="movie.poster_path" :src="'https://image.tmdb.org/t/p/w342' + movie.poster_path" alt="">
+                        <img v-else src="./img/img-not-available.jpg" class="placeholder-img" alt="">
+                        <div class="inner-poster">
+                            <p> <span>Titolo:</span> {{movie.title}}</p>
+                            <p> <span>Titolo originale:</span> {{movie.original_title}}</p>
+                            <span>Lingua:</span> <img class="flag-language" v-if="flagList.includes(movie.original_language)" :src="'./img/' + movie.original_language + '.png'" alt="">
+                            <span v-else>{{movie.original_language}}</span>
+                            <p> <span>Media voto:</span> <i v-for="(star, index) in 5" :class="coloredStars(movie, index)" class="fas fa-star"></i></p>
+                            <p> <span>Overview: </span> {{movie.overview}}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="series-container">
+            <h2>SERIE TV</h2>
+            <ul>
+                <li v-for="series in tvList">
+                    <div class="poster-container">
+                        <div class="opacity"></div>
+                        <img :src="'https://image.tmdb.org/t/p/w342' + series.poster_path" alt="">
+
+                        <div class="inner-poster">
+                            <p> <span>Titolo:</span> {{series.name}}</p>
+                            <p> <span>Titolo originale:</span> {{series.original_name}}</p>
+                            <span>Lingua:</span> <img class="flag-language" v-if="flagList.includes(series.original_language)" :src="'./img/' + series.original_language + '.png'" alt="">
+                            <p> <span>Media voto:</span> <i v-for="(star, index) in 5" :class="coloredStars(series, index)" class="fas fa-star"></i></p>
+                            <p> <span>Overview:</span> {{series.overview}}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <script src="js/script.js"></script>
