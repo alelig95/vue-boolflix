@@ -12,64 +12,70 @@
 </head>
 <body>
     <!-- Inizio app -->
-    <div id="app" class="container">
+    <div id="app">
         <!-- Inizio header -->
         <header>
             <div class="header-left">
                 <img  class="logo" src="img/Boolflix.png" alt="">
             </div> 
             <div class="header-right">
-                <input type="text" v-model="searchInput" @keyup.enter="search">
+                <input type="text" v-model="searchInput" placeholder="Cerca" @keyup.enter="search">
                 <button @click="search">CERCA</button>
              </div>
         </header>
         <!-- /header -->
         <!-- Inizio main -->
         <main>
-            <!-- Inizio contenitore dei film -->
-            <div class="film-container"> 
-                <h2 v-if="moviesList.length">FILM</h2>
-                <ul>
-                    <li v-for="movie in moviesList">
-                        <div class="poster-container">
-                            <div class="opacity"></div>
-                            <img  v-if="movie.poster_path" :src="'https://image.tmdb.org/t/p/w342' + movie.poster_path" class="poster" alt="">
-                            <img v-else src="./img/img-not-available.jpg" class="placeholder-img" alt="">
-                            <div class="content-details">
-                                <p> <span>Titolo:</span> {{movie.title}}</p>
-                                <p> <span>Titolo originale:</span> {{movie.original_title}}</p>
-                                <span>Lingua:</span> <img class="flag-language" v-if="flagsList.includes(movie.original_language)" :src="'./img/' + movie.original_language + '.png'" alt="">
-                                <span v-else>{{movie.original_language}}</span>
-                                <p> <span>Media voto:</span> <i v-for="(star, index) in 5" :class="ratingStars(movie, index)" class="fas fa-star"></i></p>
-                                <p> <span>Overview: </span> {{movie.overview}}</p>
+            <div class="container">
+                <!-- Inizio contenitore dei film -->
+                <div class="film-container"> 
+                    <h2 v-if="moviesList.length">FILM</h2>
+                    <ul>
+                        <li v-for="movie in moviesList">
+                            <div class="poster-container">
+                                <div class="opacity"></div>
+                                <img  v-if="movie.poster_path" :src="getPoster(movie)" class="poster" alt="">
+                                <img v-else src="./img/img-not-available.jpg" class="placeholder-img" alt="">
+                                <div class="content-details">
+                                    <p> <span>Titolo:</span> {{movie.title}}</p>
+                                    <p> <span>Titolo originale:</span> {{movie.original_title}}</p>
+                                    <span>Lingua:</span> 
+                                    <img class="flag-language" v-if="flagsList.includes(movie.original_language)" 
+                                    :src="getFlag(movie.original_language)" alt="">
+                                    <span v-else>{{movie.original_language}}</span>
+                                    <p> <span>Media voto:</span> <i v-for="(star, index) in 5" :class="ratingStars(movie, index)"></i></p>
+                                    <p> <span>Overview: </span> {{truncateString(movie.overview, 400)}}</p>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <!-- /contenitore dei film -->
-            <!-- Inizio contenitore serie TV -->
-            <div class="series-container">
-                <h2 v-if="tvSeriesList.length">SERIE TV</h2>
-                <ul>
-                    <li v-for="series in tvSeriesList">
-                        <div class="poster-container">
-                            <div class="opacity"></div>
-                            <img v-if="series.poster_path" :src="'https://image.tmdb.org/t/p/w342' + series.poster_path" class="poster" alt="">
-                            <img v-else src="./img/img-not-available.jpg" class="placeholder-img" alt="">
-                            <div class="content-details">
-                                <p> <span>Titolo:</span> {{series.name}}</p>
-                                <p> <span>Titolo originale:</span> {{series.original_name}}</p>
-                                <span>Lingua:</span> <img class="flag-language" v-if="flagsList.includes(series.original_language)" :src="'./img/' + series.original_language + '.png'" alt="">
-                                <span v-else>{{series.original_language}}</span>
-                                <p> <span>Media voto:</span> <i v-for="(star, index) in 5" :class="ratingStars(series, index)" class="fas fa-star"></i></p>
-                                <p> <span>Overview:</span> {{series.overview}}</p>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /contenitore dei film -->
+                <!-- Inizio contenitore serie TV -->
+                <div class="series-container">
+                    <h2 v-if="tvSeriesList.length">SERIE TV</h2>
+                    <ul>
+                        <li v-for="series in tvSeriesList">
+                            <div class="poster-container">
+                                <div class="opacity"></div>
+                                <img v-if="series.poster_path" :src="getPoster(series)" class="poster" alt="">
+                                <img v-else src="./img/img-not-available.jpg" class="placeholder-img" alt="">
+                                <div class="content-details">
+                                    <p> <span>Titolo:</span> {{series.name}}</p>
+                                    <p> <span>Titolo originale:</span> {{series.original_name}}</p>
+                                    <span>Lingua:</span> 
+                                    <img class="flag-language" v-if="flagsList.includes(series.original_language)" 
+                                    :src="getFlag(series.original_language)" alt="">
+                                    <span v-else>{{series.original_language}}</span>
+                                    <p> <span>Media voto:</span> <i v-for="(star, index) in 5" :class="ratingStars(series, index)"></i></p>
+                                    <p> <span>Overview:</span> {{truncateString(series.overview, 400)}}</p>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /contenitore serie TV -->
             </div>
-            <!-- /contenitore serie TV -->
         </main>
         <!-- /main -->
     </div>

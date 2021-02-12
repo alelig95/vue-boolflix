@@ -32,11 +32,27 @@ new Vue ({
         ratingStars: function(element, index) {
             const averageVote = Math.ceil(element.vote_average/2);
               if (index + 1 <= averageVote) {
-                  return 'golden-star'
+                  return 'fas fa-star golden-star'
               } else {
-                  return 'white-star'
+                  return 'fas fa-star white-star'
               }
-        }   
+        },
+        /* Creo un metodo per potermi richiamare nell'html l'immagine della bandiera della lingua: */
+        getFlag: function(language) {
+            return `img/${language}.png`
+        },
+        /* Creo un metodo per potermi richiamare nell'html il poster delle varie opere: */
+        getPoster: function(element) {
+            return `https://image.tmdb.org/t/p/w342${element.poster_path}`
+        },
+        /* Creo un metodo per impedire alla lunghezza dell'overview di superare un certo numero di caratteri: */
+        truncateString: function(string, n) {
+            if (string.length > n) {
+                return string.substring(0, n) + '...';
+            } else {
+                return string;
+            }
+        }
     }
 });
 Vue.config.devtools = true;
