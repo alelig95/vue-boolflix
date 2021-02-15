@@ -29,10 +29,14 @@
             <div class="container">
                 <!-- Inizio contenitore dei film -->
                 <div class="film-container"> 
-                    <h2 v-if="moviesList.length">FILM</h2>
+                    <h2 v-if="moviesList.length > 0 && init === true">FILM</h2>
+                    
+                    <h2 v-else-if="moviesList.length == 0 && init === true">La ricerca non ha prodotto risultati</h2>
+                    <h2 v-else>Effettua una ricerca...</h2>
+
                     <ul>
                         <li v-for="movie in moviesList">
-                            <div class="poster-container">
+                            <div class="poster-container" @mouseenter="getActors(movie.id, true)">
                                 <div class="opacity"></div>
                                 <img  v-if="movie.poster_path" :src="getPoster(movie)" class="poster" alt="">
                                 <img v-else src="./img/img-not-available.jpg" class="placeholder-img" alt="">
@@ -44,7 +48,8 @@
                                     :src="getFlag(movie.original_language)" alt="">
                                     <span v-else>{{movie.original_language}}</span>
                                     <p> <span>Media voto:</span> <i v-for="(star, index) in 5" :class="ratingStars(movie, index)"></i></p>
-                                    <p> <span>Overview: </span> {{truncateString(movie.overview, 400)}}</p>
+                                    <p> <span>Overview: </span> {{truncateString(movie.overview, 380)}}</p>
+                                    <p> <span>Attori:</span> {{actorsList}}</p>
                                 </div>
                             </div>
                         </li>
@@ -56,7 +61,7 @@
                     <h2 v-if="tvSeriesList.length">SERIE TV</h2>
                     <ul>
                         <li v-for="series in tvSeriesList">
-                            <div class="poster-container">
+                            <div class="poster-container" @mouseenter="getActors(series.id, false)">
                                 <div class="opacity"></div>
                                 <img v-if="series.poster_path" :src="getPoster(series)" class="poster" alt="">
                                 <img v-else src="./img/img-not-available.jpg" class="placeholder-img" alt="">
@@ -68,7 +73,8 @@
                                     :src="getFlag(series.original_language)" alt="">
                                     <span v-else>{{series.original_language}}</span>
                                     <p> <span>Media voto:</span> <i v-for="(star, index) in 5" :class="ratingStars(series, index)"></i></p>
-                                    <p> <span>Overview:</span> {{truncateString(series.overview, 400)}}</p>
+                                    <p> <span>Overview:</span> {{truncateString(series.overview, 380)}}</p>
+                                    <p> <span>Attori:</span> {{actorsList}}</p>
                                 </div>
                             </div>
                         </li>

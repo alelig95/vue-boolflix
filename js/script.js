@@ -4,21 +4,35 @@ new Vue ({
         moviesList: [],
         tvSeriesList: [],
         flagsList:['en', 'it', 'de', 'es', 'ja', 'pl', 'fr'],
-        searchInput: ''
+        apiKey: '8f64355215adbb41301dba970e421acd',
+        searchInput: '',
+        actorsList: '',
+        init: false
     },
     methods: {
         /* Creo un metodo per popolare l'array dei film: */
         searchMovie: function() {
             const self = this;
-            axios.get('https://api.themoviedb.org/3/search/movie?api_key=8f64355215adbb41301dba970e421acd&query=' + self.searchInput)
+            axios.get('https://api.themoviedb.org/3/search/movie?', {
+                params: {
+                    api_key: self.apiKey,
+                    query: self.searchInput
+                }
+            })
             .then(function(resp) {
                 self.moviesList = resp.data.results;
+                self.init = true;
             });
         },
         /* Creo un metodo per popolare l'array delle serie TV: */
         searchTvSeries: function() {
             const self = this;
-            axios.get('https://api.themoviedb.org/3/search/tv?api_key=8f64355215adbb41301dba970e421acd&query=' + self.searchInput)
+            axios.get('https://api.themoviedb.org/3/search/tv?', {
+                params: {
+                    api_key: self.apiKey,
+                    query: self.searchInput
+                }
+            })
             .then(function(resp) {
                 self.tvSeriesList = resp.data.results;
             });
@@ -52,6 +66,35 @@ new Vue ({
             } else {
                 return string;
             }
+        },
+        /* Credo un metodo per andarmi a prendere il nome dei primi 5 attori: */
+        getActors: function(id, isMovie) {
+            const self = this;
+
+            let objectEndpoint = 'movie'
+            if(isMovie === false) {
+                objectEndpoint = 'tv'
+            }
+
+            return axios.get('https://api.themoviedb.org/3/' + objectEndpoint + '/' + id + '/credits?', {
+                params: {
+                    api_key: self.apiKey
+                }
+            })
+            .then(function(resp) {
+                let actorsList = resp.data.cast
+                
+                let actorsName = []
+                actorsList.forEach(element => {
+                    actorsName.push(element.name)
+                });
+
+                let actor = '';
+                for (let index = 0; index < 5; index++) {
+                    actor += (actorsName[index] + ' - ')
+                }
+                return self.actorsList = actor
+            });
         }
     }
 });
